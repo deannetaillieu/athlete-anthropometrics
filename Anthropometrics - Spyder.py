@@ -203,4 +203,4 @@ anthro_data.to_excel(writer, sheet_name='Sheet1', index=False)
 workbook  = writer.book # get the xlsxwriter workbook and worksheet objects in order to set the column widths to make the dates clearer
 worksheet = writer.sheets['Sheet1']
 worksheet.set_column('A:A', 15)
-writer.save() # close the Pandas Excel writer and output the Excel file.
+writer.save() # close the Pandas Excel writer and output the Excel file
