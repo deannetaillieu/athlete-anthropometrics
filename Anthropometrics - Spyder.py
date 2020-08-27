@@ -12,6 +12,7 @@ from bokeh.plotting import figure
 from bokeh.layouts import row
 from bokeh.models import ColumnDataSource, HoverTool, DatetimeTickFormatter
 
+
 # Import anthropometric data from desktop as a pandas DataFrame
 raw_data = pd.read_csv("/Users/deannetaillieu/desktop/Anthropometric Data.csv", header=0)
 
@@ -32,8 +33,8 @@ anthro_data['Date'] = pd.to_datetime(anthro_data['Date']) # Convert 'Date' colum
 
 # Calculate lean mass index (weight / (sum of 7 skinfolds **0.14)) and sum of 7 skinfolds (triceps, subscap, biceps, illiac, abdomen, thigh, and calf)
 # Equations were adapted from Slater et al., (2006) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2491976/
-anthro_data['Lean Mass Index'] = anthro_data['Weight'] / ((anthro_data['Triceps (mm)'] + anthro_data['SubScap (mm)'] + anthro_data['Biceps (mm)'] + anthro_data['Illiac (mm)'] + anthro_data['Abdomen (mm)'] + anthro_data['Thigh (mm)'] + anthro_data['Calf (mm)']) ** 0.14)
 anthro_data['Sum of 7'] = anthro_data['Triceps (mm)'] + anthro_data['SubScap (mm)'] + anthro_data['Biceps (mm)'] + anthro_data['Illiac (mm)'] + anthro_data['Abdomen (mm)'] + anthro_data['Thigh (mm)'] + anthro_data['Calf (mm)']
+anthro_data['Lean Mass Index'] = anthro_data['Weight'] / ((anthro_data['Sum of 7']) ** 0.14)
     
 # Plot lean mass index for all athletes
 data = ColumnDataSource(data=anthro_data)
@@ -188,7 +189,7 @@ def athlete(ID):
     layout2 = row(p3, p4)
     show(layout2)
     
-# # Use for loop to generate graphs of all athletes using the athlete function
+# Use for loop to generate graphs of all athletes using the athlete function
 for i in range(len(anthro_data['ID'].unique())):
     athlete(anthro_data['ID'].unique()[i])
 
