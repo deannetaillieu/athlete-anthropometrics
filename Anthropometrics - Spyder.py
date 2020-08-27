@@ -12,7 +12,6 @@ from bokeh.plotting import figure
 from bokeh.layouts import row
 from bokeh.models import ColumnDataSource, HoverTool, DatetimeTickFormatter
 
-
 # Import anthropometric data from desktop as a pandas DataFrame
 raw_data = pd.read_csv("/Users/deannetaillieu/desktop/Anthropometric Data.csv", header=0)
 
