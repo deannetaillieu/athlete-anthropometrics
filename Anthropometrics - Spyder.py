@@ -19,13 +19,13 @@ raw_data = pd.read_csv("/Users/deannetaillieu/desktop/Anthropometric Data.csv", 
 raw_data_crop = raw_data.iloc[:, [0, 1, 3, 4, 5, 6, 7, 9, 10, 11]]
 
 # Remove athletes with less than 2 measurements from the DataFrame
-duplicates = raw_data_crop.duplicated(subset=['ID'], keep=False) # create boolean array indicating duplicate ID values 
-inverted = ~duplicates # invert boolean array to show non duplicates as 'True'
-non_duplicates_index = [i for i, val in enumerate(inverted) if val] # find  index of athletes with 1 measurement
-duplicates_index = [i for i, val in enumerate(duplicates) if val] # find index of athletes with 2+ measurements
+two_measurements = raw_data_crop.duplicated(subset=['ID'], keep=False) # create boolean array indicating duplicate ID values 
+one_measurement = ~two_measurements # invert boolean array to show non duplicates as 'True'
+one_measurement_index = [i for i, val in enumerate(one_measurement) if val] # find  index of athletes with 1 measurement
+two_measurements_index = [i for i, val in enumerate(two_measurements) if val] # find index of athletes with 2+ measurements
 
 # Create new DataFrame including only athletes with 2+ measurements and reset the index
-anthro_data = raw_data_crop.iloc[duplicates_index, :] 
+anthro_data = raw_data_crop.iloc[two_measurements_index, :] 
 anthro_data = anthro_data.reset_index() 
 anthro_data = anthro_data.drop(columns='index') 
 anthro_data['Date'] = pd.to_datetime(anthro_data['Date']) # Convert 'Date' column to datetime format for Bokeh plot
@@ -188,7 +188,7 @@ def athlete(ID):
     layout2 = row(p3, p4)
     show(layout2)
     
-# Use for loop to generate graphs of all athletes using the athlete function
+# # Use for loop to generate graphs of all athletes using the athlete function
 for i in range(len(anthro_data['ID'].unique())):
     athlete(anthro_data['ID'].unique()[i])
 
